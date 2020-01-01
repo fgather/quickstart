@@ -50,12 +50,12 @@ while true; do
   fi
 done
 
-if [ `hostname` == "node-01" ]; then
+#if [ `hostname` == "node-01" ]; then
   ROLEFLAGS="--etcd --controlplane --worker"
-else
+#else
   #ROLEFLAGS="--worker"
-  ROLEFLAGS="--worker"
-fi
+#  ROLEFLAGS="--worker"
+#fi
 
 # Get token
 # Test if cluster is created

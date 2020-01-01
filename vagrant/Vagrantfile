@@ -48,5 +48,25 @@ Vagrant.configure(2) do |config|
       node.vm.provision "shell", path: "scripts/configure_rancher_node.sh", args: [x.fetch('ip').fetch('server'), x.fetch('admin_password')]
     end
   end
+  
+  win_node_ip = IPAddr.new(x.fetch('ip').fetch('win_node'))
+  (1..x.fetch('win_node').fetch('count')).each do |i|
+    c = x.fetch('win_node')
+    hostname = "win-node-%02d" % i
+    config.vm.define hostname do |win_node|
+      win_node.vm.box   = "StefanScherer/windows_2019_docker"
+      win_node.vm.guest = :windows
+      win_node.vm.provider "virtualbox" do |v|
+        v.cpus = c.fetch('cpus')
+        v.memory = c.fetch('memory')
+        v.name = hostname
+      end
+      win_node.vm.network x.fetch('net').fetch('network_type'), ip: IPAddr.new(win_node_ip.to_i + i - 1, Socket::AF_INET).to_s, nic_type: $private_nic_type
+      win_node.vm.hostname = hostname
+      win_node.vm.provision "shell", path: "scripts/configure_windows_node.ps1" , args: [x.fetch('ip').fetch('server'), x.fetch('admin_password')]
+    end
+  end
 
 end
+
+

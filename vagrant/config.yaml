@@ -7,13 +7,18 @@ server:
   cpus: 1
   memory: 1500
 node:
-  count: 1
+  count: 2
   cpus: 1
   memory: 1500
+win_node:
+  count: 2
+  cpus: 2
+  memory: 3000
 ip:
   master: 172.22.101.100
   server: 172.22.101.101
   node:   172.22.101.111
+  win_node: 172.22.101.150
 linked_clones: true
 net:
   private_nic_type: 82545EM
